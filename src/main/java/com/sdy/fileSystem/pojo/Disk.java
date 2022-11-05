@@ -13,7 +13,15 @@ public interface Disk {
     /**
      * 文件路径
      */
-    String url = "src/main/resources/disk.txt";
+    String URL = "src/main/resources/disk.txt";
+
+    String NULL = "00000000";
+    String NULLBIT = "0000000000000000000000000000000000000000000000000000000000000000";
+
+    String READONLY = "00";
+    String NOTREADONLY = "01";
+    String HIDDEN = "10";
+    String NOTHIDDEN = "11";
 
     /**
      * 一个磁盘默认有128个磁盘块

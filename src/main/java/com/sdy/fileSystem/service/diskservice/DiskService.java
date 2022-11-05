@@ -1,5 +1,6 @@
 package com.sdy.fileSystem.service.diskservice;
 
+import com.sdy.fileSystem.pojo.Disk;
 import com.sdy.fileSystem.pojo.DiskImpl.DiskImpl;
 import org.junit.Test;
 
@@ -12,115 +13,64 @@ import java.util.List;
  * 介绍：
  */
 public class DiskService {
-    private DiskImpl disk = new DiskImpl();
+    private DiskImpl disk;
 
-    /**
-     * 返回root编号的磁盘块中保存的所有目录项
-     */
-    public void getList(List<String> list, int root) {
-
-        // 文件名：3个字节   扩展名：1个字节  目录、文件属性：1字节；起始盘块号：1个字节； 文件长度：2字节（目录没有长度）
-        for (int i = 0; i < 8; i++) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(disk.binaryToAscll(disk.read(root, i * 8, 3)));
-            // 判断是否是空
-            if ("".equals(sb.toString())) continue;
-            String type = disk.binaryToAscll(disk.read(root, i * 8 + 4, 1));
-            if ("f".equals(type)) sb.append(".");
-            sb.append(disk.binaryToAscll(disk.read(root, i * 8 + 3, 1)));
-            list.add(sb.toString());
-        }
+    public DiskService() {
+        disk = new DiskImpl();
     }
 
-    /**
-     * 获取根目录下的所有fcb
-     */
-    public void getRootList(List<String> list) {
-        // 根目录下的所有目录项统一放在第2磁盘块
-        getList(list, 2);
+    public DiskImpl getDisk() {
+        return disk;
     }
+
 
     /**
      * 在根目录中添加项
      * 一个字节的后缀，3个字节的名字，最大长度为5
      * 在根目录添加项比较特殊，
-     *
-     * @param fileName
      */
-    public void inRootCreateFile(String fileName) {
-        int len = fileName.length();
-        if (len > 5 || len == 0) {
-            System.out.println("输入错误");
-            return;
-        }
-        if (disk.getNumOfRootDir() >= 8) {
-            System.out.println("稍后处理");
-            return;
-        }
-        String name;
-        String type;
-        String suffix;
-        // 有且只有一个分隔符 .
-        if (isFile(fileName)){
-            System.out.println(fileName.indexOf("."));
-            System.out.println("待创建的是文件");
-            name = fileName.substring(0, fileName.indexOf("."));
-            type = "f";
-            suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
-        } else if (isDir(fileName)) {
-            System.out.println("待创建的是目录");
-            name = fileName;
-            type = "d";
-            suffix = "";
-        } else {
-            System.out.println("输入错误");
-            return;
-        }
-
-        disk.write(2, disk.getNumOfRootDir() * 8, disk.ascllToBinary(name));
-        disk.write(2, disk.getNumOfRootDir() * 8 + 3, disk.ascllToBinary(suffix));
-        disk.write(2, disk.getNumOfRootDir() * 8 + 4, disk.ascllToBinary(type));
-        int id = disk.getNullBlock();
-        if(id == 0) {
-            System.out.println("空间不足");
-            return;
-        }
-        disk.write(2, disk.getNumOfRootDir() * 8 + 5, disk.ascllToBinary(id));
-        disk.setNumOfRootDir(disk.getNumOfRootDir() + 1);
-    }
-
-    /**
-     * 返回指定文件或者目录的所在目录及其数据所在目录
-     */
-    public int[] getFileBlock(String path) {
-        String[] split = path.split("/");
-        ArrayList<String> list = new ArrayList<>();
-        int[] res = new int[3];
-        int idx = 0;
-        int root = 2;
-        for (int i = 1; i <= split.length - 1; i++) {
-            if (i == 1) getRootList(list);
-            else {
-                list.clear();
-                getList(list, root);
-            }
-            for (String s : list) {
-                if (split[i].equals(s)) break;
-                idx++;
-            }
-            res[2] = idx;
-            System.out.println("下标为：" + idx);
-            // idx指向列表中位次
-            String read = disk.binaryToNum(disk.read(root, idx * 8 + 5, 1));
-            System.out.println(read);
-            if ("".equals(read)) return new int[]{0, 0, 0};
-            root = Integer.parseInt(read);
-            if (i == split.length - 2) res[0] = root;
-        }
-        res[1] = root;
-        return res;
-    }
-
+//    public void inRootCreateFile(String fileName) {
+//        int len = fileName.length();
+//        if (len > 5 || len == 0) {
+//            System.out.println("输入错误");
+//            return;
+//        }
+//        if (disk.getNumOfRootDir() >= 8) {
+//            System.out.println("稍后处理");
+//            return;
+//        }
+//        String name;
+//        String type;
+//        String suffix;
+//        // 有且只有一个分隔符 .
+//        if (isFile(fileName)) {
+//            System.out.println(fileName.indexOf("."));
+//            System.out.println("待创建的是文件");
+//            name = fileName.substring(0, fileName.indexOf("."));
+//            type = "f";
+//            suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+//        } else if (isDir(fileName)) {
+//            System.out.println("待创建的是目录");
+//            name = fileName;
+//            type = "d";
+//            suffix = "";
+//        } else {
+//            System.out.println("输入错误");
+//            return;
+//        }
+//
+//        disk.write(2, disk.getNumOfRootDir() * 8, disk.ascllToBinary(name));
+//        disk.write(2, disk.getNumOfRootDir() * 8 + 3, disk.ascllToBinary(suffix));
+//        disk.write(2, disk.getNumOfRootDir() * 8 + 4, disk.ascllToBinary(type));
+//        int id = disk.getNullBlock();
+//        if (id == 0) {
+//            System.out.println("空间不足");
+//            return;
+//        }
+//        disk.updateFat(id, 0);
+//        disk.write(2, disk.getNumOfRootDir() * 8 + 5, disk.ascllToBinary(id));
+//        disk.setNumOfRootDir(disk.getNumOfRootDir() + 1);
+//    }
 
     /**
      * 为文件中填充内容
@@ -130,9 +80,12 @@ public class DiskService {
      */
     public void editFile(String path, String data) {
         int fileLength = data.length();
-        int[] startId = getFileBlock(path);
+        int[] startId = new int[5];
+        int[] fileBlock = disk.getFileBlock(path);
+        System.arraycopy(fileBlock, 0, startId, 0, 5);
         // 该数据所需的磁盘块空间
-        int size = data.length() / 64 + (data.length() % 64 != 0 ? 1 : 0);
+        int size = fileLength / 64 + ((fileLength % 64) != 0 ? 1 : 0);
+        System.out.println(path + "      该文件所需要的磁盘块数量为：" + size);
         // 默认开辟一个磁盘块空间
         size -= 1;
         ArrayList<Integer> block = new ArrayList<>();
@@ -141,50 +94,95 @@ public class DiskService {
             System.out.println("磁盘空间不足");
             return;
         }
-        int pre = 0;
+        int pre = startId[1];
         // 数据写入fat表
         for (int i = 0; i < size; i++) {
             int id = disk.getNullBlock();
-            disk.write(id / 64, pre, disk.ascllToBinary(id));
             block.add(id);
+            disk.updateFat(pre, id);
             pre = id;
+            if (i == size - 1) disk.updateFat(id, 0);
         }
         // 写入数据磁盘块
         for (int i = 0; i < block.size(); i++) {
-            disk.write(block.get(i), 0, disk.ascllToBinary(data.substring(i * 64, Math.min((i + 1) * 64, data.length()))));
+            disk.write(block.get(i), 0, disk.ascllToBinary(data.substring(i * 64, Math.min((i + 1) * 64, fileLength))));
         }
-        System.out.println("数据写入成功：" + data);
+//        System.out.println("数据写入成功：" + data);
         // 将文件长度更新
-        disk.write(startId[0], startId[2] * 8 + 6, disk.ascllToBinary(fileLength));
-        // 2、文件已经分配空间，新添加内容需要分配空间
-        // 3、文件已经分配空间，内容减少，需要回收空间
+        disk.updateFileLength(startId, fileLength);
+        String read = disk.read(startId[3], startId[4] * 8 + 6, 2);
+        System.out.println(disk.binaryToNum(read));
     }
-//
-//    /**
-//     * 更新fat表中的内容
-//     *
-//     * @param cur 当前磁盘块
-//     * @param pre 指向的下一个磁盘块
-//     */
-//    public void updateFat(int cur, int pre) {
-//        disk.write(cur / 64, cur - (cur / 64) * 64, disk.ascllToBinary(pre + ""));
-//        boolean[] state = disk.getState();
-//        state[cur] = state[pre] = true;
-//    }
+
+    public void modify(String path, String data) {
+        int len = data.length();
+        int blockNum = disk.fileLengthToBlockNum(len);
+        int[] block = disk.getFileBlock(path);
+        int[] fileBlock = new int[5];
+        System.arraycopy(block, 0, fileBlock, 0, 5);
+        // 起始磁盘块、父目录磁盘块、下标、
+        int startBlock = disk.getStartBlock(fileBlock);
+        // 旧文件长度
+        int oldFileLen = disk.getFileLength(fileBlock);
+        // 更新文件长度
+        disk.updateFileLength(fileBlock, len);
+        // 旧文件所需磁盘块数
+        int oldBlockNum = disk.fileLengthToBlockNum(oldFileLen);
+        List<Integer> list = new ArrayList<>();
+        if (oldBlockNum > blockNum) {
+            // 回收，够了就停
+            int root = startBlock;
+            while (blockNum > 0) {
+                list.add(root);
+                if (blockNum == 1) {
+                    disk.removeBlock(root);
+                    break;
+                }
+                root = disk.getFatNextBlock(root);
+                blockNum--;
+            }
+
+        } else if (oldBlockNum < blockNum) {
+            // 扩容，添加
+            int root = startBlock;
+            int pre = root;
+            while (root != 0) {
+                list.add(root);
+                pre = root;
+                root = disk.getFatNextBlock(root);
+            }
+            for (int i = 0; i < blockNum - oldBlockNum; i++) {
+                root = disk.getNullBlock();
+                list.add(root);
+                disk.updateFat(pre, root);
+                pre = root;
+            }
+            disk.updateFat(pre, 0);
+        }
+        // 写入数据磁盘块
+        for (int i = 0; i < list.size(); i++) {
+            disk.write(list.get(i), 0, disk.ascllToBinary(data.substring(i * 64, Math.min((i + 1) * 64, len))));
+        }
+    }
 
     public String readFile(String path) {
-        int[] id = getFileBlock(path);
-        ArrayList<Integer> block = new ArrayList<>();
-        block.add(id[1]);
-        while (id[1] != 0) {
-            String read = disk.read(id[1] / 64, id[1] - (id[1] / 64) * 64, 1);
-            if (!"".equals(disk.binaryToNum(read))) {
-                id[1] = Integer.parseInt(disk.binaryToNum(read));
-                block.add(id[1]);
-            } else id[1] = 0;
+        int[] fileBlock = disk.getFileBlock(path);
+        int[] id = new int[5];
+        System.arraycopy(fileBlock, 0, id, 0, 5);
+        if (id[2] == id[4] && id[2] == 0 && id[0] == id[3] && id[0] == 0) {
+            System.out.println("该文件不存在");
+            return "";
         }
-        int len = Integer.parseInt(disk.binaryToNum(disk.read(id[0], id[2] * 8 + 6, 2)));
-        System.out.println(len);
+        ArrayList<Integer> block = new ArrayList<>();
+        // 该文件的第一个数据磁盘块快号
+        while (id[1] != 0) {
+            block.add(id[1]);
+            id[1] = disk.getFatNextBlock(id[1]);
+        }
+        // 获取文件长度
+//        int len = Integer.parseInt(disk.binaryToNum(disk.read(id[0], id[2] * 8 + 6, 2)));
+        int len = disk.getFileLength(id);
+        System.out.println(path + "文件长度为：" + len);
         StringBuilder sb = new StringBuilder();
         for (int idx : block) {
             sb.append(disk.binaryToAscll(disk.read(idx, 0, Math.min(64, len))));
@@ -213,34 +211,33 @@ public class DiskService {
         * */
         String[] split = path.split("/");
         for (int i = 1; i < split.length - 1; i++) {
-            if(!isDir(split[i])) {
+            if (!isDir(split[i])) {
                 System.out.println("路径错误，存在文件于目录位置");
                 return;
             }
         }
-        if(!isFile(split[split.length - 1])) return;
 
-        StringBuilder sb = new StringBuilder("/");
+        StringBuilder sb = new StringBuilder();
         int root = 2;
-        int i = 0;
+        int i;
         for (i = 1; i <= split.length - 1; i++) {
-            int[] fileBlock = getFileBlock(sb.append(split[i]).toString());
-            if (fileBlock[0] == 0) break;
-            root = fileBlock[0];
+            int[] fileBlock = disk.getFileBlock(sb.append("/").append(split[i]).toString());
+            if (fileBlock[0] == 0 && fileBlock[1] == 0 && fileBlock[2] == 0) break;
+            root = disk.getFatList(fileBlock[1]);
         }
 
-        if (i == split.length - 1
-        ) {
-            // 后期补逻辑，只需要将文件的fat表除了第一个磁盘块外全部清空即可
+        if (i == split.length) {
             System.out.println("文件已存在，是否覆盖？");
-            return;
+            System.out.println("默认覆盖");
+            deleteFile(path);
+            i = 1;
         }
         // 在磁盘块root下将剩余文件目录创建完成
         String fileName, name, type, suffix;
         boolean isFile = false;
         List<String> list = new ArrayList<>();
         for (; i <= split.length - 1; i++) {
-            if(isFile) {
+            if (isFile) {
                 System.out.println("文件下不可创建目录或文件");
                 return;
             }
@@ -266,29 +263,102 @@ public class DiskService {
                 return;
             }
             list.clear();
-            getList(list, root);
+            root = disk.getFatList(root);
+            disk.getList(list, root);
             int size = list.size();
+            if (size >= 8) {
+                int nullBlock = disk.getNullBlock();
+                disk.updateFat(root, nullBlock);
+                disk.updateFat(nullBlock, 0);
+                root = nullBlock;
+                size = 0;
+            }
             disk.write(root, size * 8, disk.ascllToBinary(name));
             disk.write(root, size * 8 + 3, disk.ascllToBinary(suffix));
             disk.write(root, size * 8 + 4, disk.ascllToBinary(type));
+
+            // 分配数据盘块
             int num = disk.getNullBlock();
-            if(num == 0) {
+            if (num == 0) {
                 System.out.println("空间不足");
                 return;
             }
             disk.write(root, size * 8 + 5, disk.ascllToBinary(num));
+            root = num;
         }
     }
 
-    @Test
-    public void test() {
-        disk.format();
-        createFile("/ab/bc/aaa.c");
-        editFile("/ab/bc/bbb.c", "qwers2341234adfa.sdf");
-        String s = readFile("/ab/bc/bbb.c");
-        System.out.println();
-        System.out.println(s);
+    public void deleteFile(String path) {
+        int[] fileBlock = disk.getFileBlock(path);
+//        ArrayList<String> list = new ArrayList<>();
+//        disk.getList(list, fileBlock[0]);
+        System.out.println("----------------fileblock数组------------------");
+        System.out.println(fileBlock[0]);
+        System.out.println(fileBlock[1]);
+        System.out.println(fileBlock[2]);
+        System.out.println(fileBlock[3]);
+        System.out.println(fileBlock[4]);
+        System.out.println("----------------------------------");
+        // 该文件就是父目录中最后一个，无需覆盖
+//        if (list.size() - 1 == fileBlock[4]) {
+//             抹除父目录子项数据
+//            disk.write(fileBlock[3], fileBlock[4] * 8, Disk.NULLBIT);
+//        } else {
+        disk.reccyleBlock(fileBlock);
+        // 把最后一项的内容提过来覆盖掉当前目录项
+//            disk.write(fileBlock[0], fileBlock[2] * 8, disk.read(fileBlock[0], (list.size() - 1) * 8, 8));
+//            disk.write(fileBlock[0], list.size() * 8 - 8, Disk.NULLBIT);
+//        }
+
+        // 更新fat表
+        disk.removeBlock(fileBlock[1]);
     }
 
+    public void moveFile(String start, String target) {
+        // 1、判断target路径是否存在，如果存在存在提示覆盖
+        int[] targetFileBlock = disk.getFileBlock(target);
+        if (targetFileBlock[0] != 0 || targetFileBlock[1] != 0 || targetFileBlock[2] != 0) {
+            System.out.println("提示文件存在，是否覆盖");
+        }
+        // 2、获取起始文件信息
+        int[] startFileBlock = disk.getFileBlock(start);
+        String read = disk.read(startFileBlock[3], startFileBlock[4] * 8, 8);
+        // 3、使用起始文件信息，创建新文件信息
+        String dir = target.substring(0, target.lastIndexOf("/"));
+        createFile(dir);
+        targetFileBlock = disk.getFileBlock(dir);
+        // 最后一个目录项所在盘块
+        int lastBlock = disk.getFatList(targetFileBlock[1]);
+        ArrayList<String> list = new ArrayList<>();
+        disk.getList(list, lastBlock);
+        // 目录项个数
+        int size = list.size();
+        if(size == 8) {
+            // 扩容
+            int nullBlock = disk.getNullBlock();
+            disk.updateFat(lastBlock, nullBlock);
+            disk.updateFat(nullBlock, 0);
+            lastBlock = nullBlock;
+            size = 0;
+        }
+        disk.write(lastBlock, size * 8, read);
+        // 4、删除原目录文件
+        disk.reccyleBlock(startFileBlock);
+    }
+
+    public List<String> ls(String path) {
+        List<String> list = new ArrayList<>();
+        int[] fileBlock = disk.getFileBlock(path);
+        disk.getList(list, fileBlock[1]);
+        return list;
+    }
+
+    public void copy(String src, String dest) {
+        // 1、读出源文件内容
+        String read = readFile(src);
+        // 2、写入新文件
+        createFile(dest);
+        editFile(dest, read);
+    }
 
 }
