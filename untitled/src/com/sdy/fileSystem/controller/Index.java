@@ -27,6 +27,7 @@ public class Index extends Application {
     public static Stage fileManageStage;
     public final javafx.scene.image.Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../icon.png")));
     public final javafx.scene.image.Image file = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../file.png")));
+    public final javafx.scene.image.Image block = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../block.png")));
 
     public static void main(String[] args) {
         Test test = new Test(new DiskController());
@@ -78,11 +79,11 @@ public class Index extends Application {
         fileManageStage.setTitle("文件管理器");
         fileManageStage.setScene(new Scene(root, 900, 600));
         fileManageStage.show();
-        Node imageView = new ImageView(icon);
+        Node imageView = new ImageView(block);
         TreeItem<String> rootItem = new TreeItem<String>("/", imageView);
         disk.dfsPath("/", rootItem, icon);
         TreeView lookup = (TreeView) root.lookup("#treeView");
-        System.out.println(lookup == null);
+        rootItem.setExpanded(true);
         lookup.setRoot(rootItem);
     }
 

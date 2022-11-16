@@ -21,6 +21,7 @@ public class NewFile {
     public void saveNewFile(ActionEvent actionEvent) throws IOException {
         CharSequence characters = newFileName.getCharacters();
         name = FileManage.PATH;
+        if(!"/".equals(name)) name += "/";
         name += characters.toString();
         Index.disk.create(name);
         stage.close();

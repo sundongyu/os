@@ -69,6 +69,19 @@ public class DiskController {
         }
     }
 
+    public void dfsDir(String path, TreeItem<String> rootItem, Image icon) {
+        List<String> ls = ls(path);
+        for (String s : ls) {
+            TreeItem<String> curRoot;
+            Node imageView = new ImageView(icon);
+            if(diskService.isDir(s)) {
+                curRoot = new TreeItem<String>(s, imageView);
+                rootItem.getChildren().add(curRoot);
+                dfsDir(path + ("/".equals(path) ? "" : "/") + s, curRoot, icon);
+            }
+        }
+    }
+
     public void chadir(String path) {
         curPath = path;
     }

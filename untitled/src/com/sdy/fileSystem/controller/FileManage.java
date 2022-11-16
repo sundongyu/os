@@ -7,15 +7,14 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import sun.tools.tree.NewArrayExpression;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -27,8 +26,10 @@ import java.util.Objects;
  */
 public class FileManage {
 
+    public static String PATH = "/";
     public final javafx.scene.image.Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../icon.png")));
     public final javafx.scene.image.Image file = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../file.png")));
+    public final javafx.scene.image.Image block = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../block.png")));
     @FXML
     public TreeView treeView;
     @FXML
@@ -39,7 +40,8 @@ public class FileManage {
     public MenuItem saveFile;
     public MenuItem deleteFile;
     public MenuItem moveFile;
-    public static String PATH = "/";
+    public static String fileName;
+    public Text curPath;
 
     public void onMouseClicked(MouseEvent event) {
         // 设置鼠标左键双击进行节点数据获取
@@ -50,6 +52,7 @@ public class FileManage {
             TreeItem selectedItem = (TreeItem) treeView.getSelectionModel().getSelectedItem();
             if (node instanceof Text || (node instanceof TreeCell && ((TreeCell) node).getText() != null)) {
                 StringBuilder name = new StringBuilder((String) selectedItem.getValue());
+                fileName = "/" + name.toString();
                 sb.append(name.reverse());
             }
 
@@ -66,6 +69,7 @@ public class FileManage {
             else textArea.setText("");
             // 清空字符串，避免重复添加路径
             PATH = path;
+            curPath.setText(PATH);
             sb = null;
         }
 
@@ -92,15 +96,39 @@ public class FileManage {
         index.openFileManage();
     }
 
-    public void moveFile(ActionEvent actionEvent) {
-
+    public void moveFile(ActionEvent actionEvent) throws IOException, InterruptedException {
+        Move.stage = new Stage();
+        Move.stage.setTitle("移动文件");
+        VBox root = FXMLLoader.load(getClass().getResource("../layout/move.fxml"));
+        Move.stage.setScene(new Scene(root));
+        Node imageView = new ImageView(block);
+        TreeItem<String> rootItem = new TreeItem<String>("/", imageView);
+        Index.disk.dfsDir("/", rootItem, icon);
+        TreeView lookup = (TreeView) root.lookup("#treeView");
+        Move.treeView = lookup;
+        lookup.setRoot(rootItem);
+        Text src = (Text) root.lookup("#srcDir");
+        src.setText(PATH);
+        Move.stage.show();
     }
 
     public void exitMentOnAction() {
         System.out.println("hello");
     }
 
-    public void copyFile(ActionEvent actionEvent) {
-
+    public void copyFile(ActionEvent actionEvent) throws IOException {
+        Copy.stage = new Stage();
+        Copy.stage.setTitle("拷贝文件");
+        VBox root = FXMLLoader.load(getClass().getResource("../layout/copy.fxml"));
+        Copy.stage.setScene(new Scene(root));
+        Node imageView = new ImageView(block);
+        TreeItem<String> rootItem = new TreeItem<String>("/", imageView);
+        Index.disk.dfsDir("/", rootItem, icon);
+        TreeView lookup = (TreeView) root.lookup("#treeView");
+        Copy.treeView = lookup;
+        lookup.setRoot(rootItem);
+        Text src = (Text) root.lookup("#srcDir");
+        src.setText(PATH);
+        Copy.stage.show();
     }
 }
