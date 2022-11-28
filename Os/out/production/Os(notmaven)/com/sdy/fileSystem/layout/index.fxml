@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sdy.fileSystem.controller.Index">
+    <children>
+        <ImageView fx:id="background"/>
+        <Button fx:id="blockUserState" layoutX="24.0" layoutY="190.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openBlockUserState" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: 48;-fx-block-increment: 0; -fx-background-image: url('/com/sdy/fileSystem/resource/tu.png')" />
+        <Button fx:id="exit" layoutX="24.0" layoutY="350.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#exitSystem" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: 48;-fx-block-increment: 0; -fx-background-image: url('/com/sdy/fileSystem/resource/close.png')" />
+        <Button fx:id="fileManage" layoutX="24.0" layoutY="110.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openFileManage" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: 48;-fx-block-increment: 0; -fx-background-image: url('/com/sdy/fileSystem/resource/filemanage.png')" />
+        <Button fx:id="formatBlock" layoutX="24.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#formatBlock" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: 48;-fx-block-increment: 0; -fx-background-image: url('/com/sdy/fileSystem/resource/format.png')" />
+        <Button fx:id="iterm" layoutX="24.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#openIterm" prefHeight="48.0" prefWidth="48.0" style="-fx-background-size: 48;-fx-block-increment: 0; -fx-background-image: url('/com/sdy/fileSystem/resource/iterm.png')" />
+        <Text layoutX="35.0" layoutY="91.0" strokeType="OUTSIDE" strokeWidth="0.0" text="终端" wrappingWidth="28.9423828125" />
+        <Text layoutX="35.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="文件" wrappingWidth="28.942371368408203" />
+        <Text layoutX="29.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="位示图" wrappingWidth="40.9423828125" />
+        <Text layoutX="29.0" layoutY="331.0" strokeType="OUTSIDE" strokeWidth="0.0" text="格式化" wrappingWidth="40.9423828125" />
+        <Text layoutX="36.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="退出" wrappingWidth="28.942371368408203" />
+    </children>
+</AnchorPane>
