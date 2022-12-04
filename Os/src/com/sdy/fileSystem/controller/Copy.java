@@ -40,8 +40,8 @@ public class Copy {
         System.out.println(srcDir.getText().toString() + tarDir.getText().toString());
         Index.disk.copy(srcDir.getText().toString(), tarDir.getText().toString());
         Index index = new Index();
-        Index.fileManageStage.close();
-        index.openFileManage();
+        index.updataFileManage(Index.root);
+        index.updateBlockUser();
     }
 
     public void onMouseClicked(MouseEvent event) {

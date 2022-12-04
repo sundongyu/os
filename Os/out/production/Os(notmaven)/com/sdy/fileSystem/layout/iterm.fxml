@@ -12,10 +12,5 @@
             <Font size="1.0" />
          </font>
       </Button>
-<!--      <TextArea fx:id="textArea" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressedTextArea" prefHeight="400.0" prefWidth="600.0" text="[root@localhost] -&gt;   ~#" wrapText="true">-->
-<!--         <font>-->
-<!--            <Font size="17.0" />-->
-<!--         </font>-->
-<!--      </TextArea>-->
    </children>
 </StackPane>

@@ -2,6 +2,7 @@ package com.sdy.fileSystem;
 
 import com.sdy.fileSystem.controller.DiskController;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -30,7 +31,7 @@ public class Test implements Runnable {
         System.out.println("8、exit");
     }
 
-    public void go() {
+    public void go() throws IOException {
         System.out.println("--------------文件管理系统-----------------");
         Scanner scanner = new Scanner(System.in);
         disk.getDiskService().getDisk().init();
@@ -87,6 +88,10 @@ public class Test implements Runnable {
 
     @Override
     public void run() {
-        go();
+        try {
+            go();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

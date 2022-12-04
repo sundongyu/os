@@ -33,12 +33,12 @@ public class Move {
     public static TreeView treeView;
 
     public void saveMove(ActionEvent actionEvent) throws IOException, InterruptedException {
-        stage.close();
+        Move.stage.close();
         System.out.println(srcDir.getText().toString() + tarDir.getText().toString());
         Index.disk.move(srcDir.getText().toString(), tarDir.getText().toString());
         Index index = new Index();
-        Index.fileManageStage.close();
-        index.openFileManage();
+        index.updataFileManage(Index.root);
+        index.updateBlockUser();
     }
 
     public void onMouseClicked(MouseEvent event) {

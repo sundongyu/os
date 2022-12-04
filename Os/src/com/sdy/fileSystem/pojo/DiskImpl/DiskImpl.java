@@ -1,8 +1,7 @@
 package com.sdy.fileSystem.pojo.DiskImpl;
 
-import com.sdy.fileSystem.pojo.Block;
+import com.sdy.fileSystem.controller.Index;
 import com.sdy.fileSystem.pojo.Disk;
-import org.junit.Test;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -16,6 +15,8 @@ import java.util.List;
  */
 public class DiskImpl implements Disk {
 
+    public static String URL;
+    public static String path = Disk.class.getResource("/disk.txt").getPath();
     private boolean[] state;
     private int numOfRootDir = 0;
     /**
@@ -24,7 +25,15 @@ public class DiskImpl implements Disk {
     private int usedNum = 3;
 
     public DiskImpl() {
-//        format();
+        // mac打jar包后用这种路径
+//        path = path.substring(0, path.lastIndexOf("/"));
+//        if(path.charAt(0) != '/') URL = path.substring(5, path.lastIndexOf("/")) + "/disk.txt";
+//        else URL = path.substring(0, path.lastIndexOf("out") + 3) + "/disk.txt";
+        // ide上使用这种
+//        URL = "src/disk.txt";
+        // win平台下路径
+        path = path.substring(path.indexOf("/") + 1, path.lastIndexOf("Os.jar!"));
+        URL = path + "/disk.txt";
     }
 
     public int getNumOfRootDir() {
@@ -60,11 +69,14 @@ public class DiskImpl implements Disk {
         try {
             state = new boolean[Disk.diskSize];
             state[0] = state[1] = state[2] = true;
+            System.out.println(URL);
             // 两个fat和一个根目录
             // 一个磁盘块一个磁盘块读取
             char[] buf = new char[64 * 8 * 2];
             // 初始化fat
-            fileReader = new FileReader(Disk.URL);
+            File file = new File(URL);
+            if (!file.exists()) format();
+            fileReader = new FileReader(file);
             fileReader.read(buf);
             for (int j = 3; j < 128; j++) state[j] = !Disk.NULL.equals(new String(buf, 8 * j, 8));
             System.out.println("初始化成功");
@@ -78,10 +90,13 @@ public class DiskImpl implements Disk {
 //        FileWriter fileWriter = null;
         OutputStreamWriter fileWriter = null;
         try {
-            File file = new File(Disk.URL);
+            File file = new File(URL);
+//            File file = new File(getClass().getResource("/disk.txt").getFile());
             if (file.exists()) file.delete();
             file.createNewFile();
-            fileWriter = new OutputStreamWriter(new FileOutputStream(Disk.URL), StandardCharsets.UTF_8);
+//            fileWriter = new OutputStreamWriter(new FileOutputStream(getClass().getResource("/disk.txt").getFile()), StandardCharsets.UTF_8);
+            fileWriter = new OutputStreamWriter(new FileOutputStream(URL), StandardCharsets.UTF_8);
+
             for (int i = 3; i < 64 * 128; i++) fileWriter.write(Disk.NULL);
             for (int i = 0; i < 3; i++) updateFat(i, 1);
             init();
@@ -104,7 +119,7 @@ public class DiskImpl implements Disk {
         try {
             idx += blockNum * 64;
             idx *= 8;
-            RandomAccessFile randomAccessFile = new RandomAccessFile(Disk.URL, "rw");
+            RandomAccessFile randomAccessFile = new RandomAccessFile(URL, "rw");
             randomAccessFile.seek(idx);
             randomAccessFile.write(input.getBytes(StandardCharsets.UTF_8));
             randomAccessFile.close();
@@ -122,7 +137,8 @@ public class DiskImpl implements Disk {
         StringBuilder sb = new StringBuilder();
         InputStreamReader fileReader;
         try {
-            fileReader = new InputStreamReader(new FileInputStream(Disk.URL), StandardCharsets.UTF_8);
+            fileReader = new InputStreamReader(new FileInputStream(URL), StandardCharsets.UTF_8);
+//            fileReader = new InputStreamReader(getClass().getResourceAsStream("/disk.txt"), StandardCharsets.UTF_8);
             char[] buf = new char[8];
             for (int i = 0; i < start; i++) fileReader.read(buf);
             for (int i = 0; i < len; i++) {
@@ -242,9 +258,16 @@ public class DiskImpl implements Disk {
         while (root != 1) {
             state[root] = false;
             pre = getFatNextBlock(root);
-            updateFat(root, 1);
+            updateFat(root, 0);
+            formatBlock(root);
             root = pre;
         }
+    }
+
+    public void formatBlock(int id) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 8; i++) sb.append(Disk.NULLBIT);
+        write(id, 0, sb.toString());
     }
 
     public boolean isReadOnly(String path) {
@@ -279,15 +302,17 @@ public class DiskImpl implements Disk {
         for (int q : fatList) {
             for (int i = 0; i < 8; i++) {
                 StringBuilder sb = new StringBuilder();
-                String type = binaryToAscll(read(q, i * 8 + 3, 1));
-                if(type.equals("1") || type.equals("3")) continue;
+                String type = binaryToAscll(read(q, i * 8 + 4, 1));
+                if (type.equals(Disk.NOTREADONLYANDHIDDEN) || type.equals(Disk.READONLYANDHIDDEN)) {
+                    if (!Index.showAllToFileManage) continue;
+                }
                 sb.append(binaryToAscll(read(q, i * 8, 3)));
                 // 判断是否是空
                 if ("".equals(sb.toString())) continue;
                 String suffix = binaryToAscll(read(q, i * 8 + 3, 1));
                 if (!"".equals(suffix)) {
                     sb.append(".");
-                    sb.append(binaryToAscll(read(q, i * 8 + 3, 1)));
+                    sb.append(suffix);
                 }
                 list.add(sb.toString());
             }
@@ -324,7 +349,7 @@ public class DiskImpl implements Disk {
         int idx = 0;
         int root = 2;
         res[0] = res[1] = res[3] = root;
-        for (int i = 1; i <= split.length - 1; i++) {
+        for (int i = 1; i < split.length; i++) {
             idx = 0;
             list.clear();
             getList(list, root);
@@ -336,27 +361,24 @@ public class DiskImpl implements Disk {
                 }
                 idx++;
             }
-            if(!b) return new int[]{0, 0, 0, 0, 0};
-            // 统一更新索引
-            res[2] = res[4] = idx;
-            // 获取下一层目录块号
-            if(idx > 7) {
-                int j = (idx + 1) / 8 + ((idx + 1) % 8 == 0 ? 0 : 1);
-                int fatNextBlock = res[0];
-                for (int k = 0; k < j - 1; k++) {
-                    fatNextBlock = getFatNextBlock(fatNextBlock);
-                    idx -= 8;
-                }
-                // 实际父目录
-                res[4] = idx;
-                res[3] = fatNextBlock;
+            if (!b) return new int[]{0, 0, 0, 0, 0};
+
+
+            // 获取实际目录
+            res[2] = idx;
+            if (idx < 8) res[4] = idx;
+            else {
+                int x = idx / 8;
+                for (int u = 0; u < x; u++) res[3] = getFatNextBlock(res[3]);
+                res[4] = idx % 8;
             }
+            // 获取该目录或者文件的起始数据块号
             String read = binaryToNum(read(res[3], res[4] * 8 + 5, 1));
-//            System.out.println(read);
-             if ("0".equals(read)) return new int[]{0, 0, 0, 0, 0};
+            if ("0".equals(read)) return new int[]{0, 0, 0, 0, 0};
+
             root = Integer.parseInt(read);
             res[1] = root;
-            if(i != split.length - 1) {
+            if (i != split.length - 1) {
                 res[0] = root;
                 res[3] = root;
             }
@@ -375,7 +397,7 @@ public class DiskImpl implements Disk {
     /**
      * 回收root磁盘块下的idx个目录文件，将其后面文件覆盖至当前位置
      */
-    public void recycleBlock(int[] block) {
+    public void oldrecycleBlock(int[] block) {
         // 目录：删除父目录中的数据，删除目录数据块中数据
         // 文件：删除父目录中的数据，删除数据块
         List<String> list = new ArrayList<>();
@@ -384,7 +406,7 @@ public class DiskImpl implements Disk {
         // 如果该数据刚刚好是某磁盘块的第一个数据，且是最后一个数据，删除后磁盘块就应该回收
         if (block[2] == size - 1) {
             write(block[3], block[4] * 8, Disk.NULLBIT);
-            if(block[0] != 2 && block[4] % 8 == 0 && block[0] != block[3]) {
+            if (block[0] != 2 && block[4] % 8 == 0 && block[0] != block[3]) {
                 state[block[3]] = false;
                 updateFat(block[3], 0);
             }
@@ -395,6 +417,40 @@ public class DiskImpl implements Disk {
         write(block[3], block[4] * 8, read);
         write(lastBlock, 8 * (size % 8) - 8, Disk.NULLBIT);
     }
+
+    public void recycleBlock(int[] block) {
+        List<String> list = new ArrayList<>();
+        List<Integer> fatList = new ArrayList<>();
+        getList(list, block[0]);
+        int size = list.size();
+        getFatList(fatList, block[0]);
+        int lastBlock = fatList.get(fatList.size() - 1);
+        /**
+         * 1、最后一个
+         *      1、%=8：回收文件、回收文件所在目录
+         *      2、%！=8：回收文件
+         * 2、不是最后一个
+         *      1、%=8：将最后一个数据转移到当前位置，回收最后一个文件所在目录
+         *      2、%!=8：将最后一个数据转移到当前目录，清空最后一个文件所在位置数据
+         *
+         * 回收过程中要回收数据块，目录也有，文件也有，还要保证
+         */
+
+        // 目标文件不是该目录最后一个
+        if (block[2] != size - 1) {
+            String read = read(lastBlock, ((size - 1) % 8) * 8, 8);
+            write(block[3], block[4] * 8, read);
+            write(lastBlock, ((size - 1) % 8) * 8, Disk.NULLBIT);
+        } else {
+            write(block[3], block[4] * 8, Disk.NULLBIT);
+        }
+        if (size > 1 && size % 8 == 1 && lastBlock != 2) {
+            state[lastBlock] = false;
+            updateFat(lastBlock, 0);
+            updateFat(fatList.get(fatList.size() - 2), 1);
+        }
+    }
+
 
     public int getNullBlock() {
         boolean[] state = getState();

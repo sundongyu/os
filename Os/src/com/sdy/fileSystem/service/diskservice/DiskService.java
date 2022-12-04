@@ -2,12 +2,7 @@ package com.sdy.fileSystem.service.diskservice;
 
 import com.sdy.fileSystem.pojo.Disk;
 import com.sdy.fileSystem.pojo.DiskImpl.DiskImpl;
-import javafx.scene.Node;
-import javafx.scene.control.TreeItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
-import java.sql.ClientInfoStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -211,25 +206,12 @@ public class DiskService {
     }
 
     public void createFile(String path) {
-        /*
-        1. 输入路径
-        2. 从根目录开始挨个查找给定路径中的目录或者文件是否存在
-        3. 如果目录存在，继续往下判断，如果文件存在给出提示，是否覆盖
-        4. 如果目录不存在，则创建此处之后的所有目录包括文件
-        5. 如果文件不存在，创建文件即可
-        * */
-        String[] split = path.split("/");
-        for (int i = 1; i < split.length - 1; i++) {
-            if (!isDir(split[i])) {
-                System.out.println("路径错误，存在文件于目录位置");
-                return;
-            }
-        }
 
+        String[] split = path.split("/");
         StringBuilder sb = new StringBuilder();
         int root = 2;
         int i;
-        for (i = 1; i <= split.length - 1; i++) {
+        for (i = 1; i < split.length; i++) {
             int[] fileBlock = disk.getFileBlock(sb.append("/").append(split[i]).toString());
             if (fileBlock[0] == 0 && fileBlock[1] == 0 && fileBlock[2] == 0) break;
             root = disk.getFatList(fileBlock[1]);
@@ -239,27 +221,17 @@ public class DiskService {
             System.out.println("文件已存在，是否覆盖？");
             System.out.println("默认覆盖");
             deleteFile(path);
-            root = 2;
-            i = 1;
+            createFile(path);
+            return;
         }
         // 在磁盘块root下将剩余文件目录创建完成
-        String fileName, name, type, suffix;
+        String fileName = null, name = null, type = null, suffix = null;
         boolean isFile = false;
         List<String> list = new ArrayList<>();
-        for (; i <= split.length - 1; i++) {
+        for (; i < split.length; i++) {
 
-            if (isFile) {
-                System.out.println("文件下不可创建目录或文件");
-                return;
-            }
             fileName = split[i];
-
-            if (fileName.contains(".") && fileName.indexOf(".") == fileName.lastIndexOf(".")) {
-                if (fileName.indexOf(".") != fileName.length() - 2) {
-                    System.out.println("后缀超过一个字节");
-                    return;
-                }
-                System.out.println(fileName.indexOf("."));
+            if (fileName.contains(".")) {
                 System.out.println("待创建的是文件");
                 name = fileName.substring(0, fileName.indexOf("."));
                 type = "3";
@@ -270,14 +242,12 @@ public class DiskService {
                 name = fileName;
                 type = "3";
                 suffix = "";
-            } else {
-                System.out.println("输入错误");
-                return;
             }
-            list.clear();
             root = disk.getFatList(root);
+            list.clear();
             disk.getList(list, root);
             int size = list.size();
+            // 目录扩容
             if (size >= 8) {
                 int nullBlock = disk.getNullBlock();
                 disk.updateFat(root, nullBlock);
@@ -285,12 +255,15 @@ public class DiskService {
                 root = nullBlock;
                 size = 0;
             }
+            // 处理名字长度不够3位的情况
             int temp = 0;
-            if(name.length() < 3) temp = 3 - name.length();
+            if (name != null && name.length() < 3) temp = 3 - name.length();
             StringBuilder buf = new StringBuilder();
             for (int k = 0; k < temp; k++) buf.append(Disk.NULL);
-            disk.write(root, size * 8, disk.ascllToBinary(name) + buf.toString());
-            disk.write(root, size * 8 + 3, suffix.equals("") ? Disk.NULL : disk.ascllToBinary(suffix));
+
+            // 写入数据
+            disk.write(root, size * 8, disk.ascllToBinary(name) + buf);
+            disk.write(root, size * 8 + 3, "".equals(suffix) ? Disk.NULL : disk.ascllToBinary(suffix));
             disk.write(root, size * 8 + 4, disk.ascllToBinary(type));
 
             // 分配数据盘块
@@ -307,16 +280,50 @@ public class DiskService {
     }
 
     public void change(String path, String attribute) {
+        boolean r = false, w = false;
         int[] fileBlock = disk.getFileBlock(path);
-        String read = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] + 3, 1));
-        String type;
-        if(attribute.equals("只读")) {
-            if(read.equals("1")) {
-                disk.write(fileBlock[3], fileBlock[4] * 8 + 3, disk.ascllToBinary("0"));
-            } else if(read.equals("3")) {
-                disk.write(fileBlock[3], fileBlock[4] * 8 + 3, disk.ascllToBinary("2"));
+        String read = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        // 获取原属性
+        if (Disk.NOTREADONLYANDHIDDEN.equals(read)) {
+            w = true;
+            r = false;
+        } else if (Disk.READONLYANDHIDDEN.equals(read)) {
+            r = false;
+            w = false;
+        } else if (Disk.READONLYANDNOTHIDDEN.equals(read)) {
+            w = false;
+            r = true;
+        } else {
+            w = true;
+            r = true;
+        }
+
+        // 写入属性
+        if(attribute.charAt(0) == '+') {
+            if(attribute.charAt(1) == 'r') {
+                r = true;
+            } else if(attribute.charAt(1) == 'w') {
+                w = true;
+            }
+        } else if(attribute.charAt(0) == '-') {
+            if(attribute.charAt(1) == 'r') {
+                r = false;
+            } else if(attribute.charAt(1) == 'w') {
+                w = false;
             }
         }
+
+        // 保存属性
+        if(r && w) {
+            read = Disk.NOTREADNOLYNOTHIDDEN;
+        } else if(!r && w) {
+            read = Disk.NOTREADONLYANDHIDDEN;
+        } else if(r && !w) {
+            read = Disk.READONLYANDNOTHIDDEN;
+        } else if(!(r || w)) {
+            read = Disk.READONLYANDHIDDEN;
+        }
+        disk.write(fileBlock[3], fileBlock[4] * 8 + 4, disk.ascllToBinary(read));
     }
 
 
@@ -324,9 +331,10 @@ public class DiskService {
     public void dfsDel(String path) {
         List<String> ls = ls(path);
         for (String s : ls) {
-            if(isDir(s)) dfsDel(path + "/" + s);
+            if (isDir(s)) dfsDel(path + "/" + s);
             else deleteFile(path + "/" + s);
         }
+        deleteFile(path);
     }
 
     // 删除文件，或者是空的文件夹
@@ -356,6 +364,7 @@ public class DiskService {
         // 3、使用起始文件信息，创建新文件信息
         String dir = target.substring(0, target.lastIndexOf("/"));
         // tar路径是否存在
+        targetFileBlock = disk.getFileBlock(dir);
         if (targetFileBlock[0] == targetFileBlock[3] && targetFileBlock[0] == 0 && !"".equals(dir)) {
             // 路径不存在，先创建好所需要的目录
             createFile(dir);
@@ -385,16 +394,21 @@ public class DiskService {
     public List<String> ls(String path) {
         List<String> list = new ArrayList<>();
         int[] fileBlock = disk.getFileBlock(path);
-        if (fileBlock[1] != 0) disk.getList(list, fileBlock[1]);
+        if (fileBlock[1] != 0 && fileBlock[0] != 0 && fileBlock[3] != 0) disk.getList(list, fileBlock[1]);
         return list;
     }
 
     public void copy(String src, String dest) {
         // 1、读出源文件内容
         String read = readFile(src);
+        // 2、读出属性
+        int[] fileBlock = disk.getFileBlock(src);
+        String dirData = disk.read(fileBlock[3], fileBlock[4] * 8, 8);
         // 2、写入新文件
         createFile(dest);
         editFile(dest, read);
+        int[] destFileBlock = disk.getFileBlock(dest);
+        disk.write(destFileBlock[3], destFileBlock[4] * 8, dirData);
     }
 
     public String getFileProperty(String path) {
@@ -405,8 +419,8 @@ public class DiskService {
         String suffix = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] * 8 + 3, 1));
         System.out.println("suffix: " + suffix);
         String property = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
-        System.out.println("propety: " + property);
         String fileLen = disk.binaryToNum(disk.read(fileBlock[3], fileBlock[4] * 8 + 6, 2));
+        System.out.println(fileBlock[0] + "   " + fileBlock[1] + "    " + fileBlock[2] + "     " + fileBlock[3] + "  " + fileBlock[4] + "   " + disk.read(fileBlock[3], fileBlock[4] * 8 + 6, 2));
         System.out.println(fileLen);
         StringBuilder res = new StringBuilder();
         boolean dir = isDir(path);
@@ -416,4 +430,12 @@ public class DiskService {
         if (!dir) res.append("文件长度：").append(fileLen);
         return res.toString();
     }
+
+    public void reName(String path, String newName, String newSuffix) {
+        int[] fileBlock = disk.getFileBlock(path);
+        disk.write(fileBlock[3], fileBlock[4] * 8, disk.ascllToBinary(newName));
+        disk.write(fileBlock[3], fileBlock[4] * 8 + 3,disk.ascllToBinary(newSuffix));
+    }
+
+
 }

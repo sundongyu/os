@@ -29,7 +29,7 @@ public class DeleteNotNullDir {
         stage.close();
         Index.disk.getDiskService().dfsDel(FileManage.PATH);
         Index index = new Index();
-        Index.fileManageStage.close();
-        index.openFileManage();
+        index.updataFileManage(Index.root);
+        index.updateBlockUser();
     }
 }

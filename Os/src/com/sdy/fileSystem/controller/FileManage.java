@@ -1,5 +1,6 @@
 package com.sdy.fileSystem.controller;
 
+import com.sdy.fileSystem.pojo.Disk;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,20 +32,20 @@ public class FileManage {
 
     public static String PATH = "/";
     public static String fileName;
-    public final javafx.scene.image.Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resource/icon.png")));
-    public final javafx.scene.image.Image file = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resource/file.png")));
-    public final javafx.scene.image.Image block = new Image(Objects.requireNonNull(getClass().getResourceAsStream("../resource/block.png")));
-    @FXML
+    public final Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/sdy/fileSystem/resource/icon.png")));
+    public final Image file = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/sdy/fileSystem/resource/file.png")));
+    public final Image block = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/com/sdy/fileSystem/resource/block.png")));
     public TreeView treeView;
-    @FXML
     public TextArea textArea;
-    @FXML
     public TextArea dataProperty;
     public MenuItem newFile;
     public MenuItem saveFile;
     public MenuItem deleteFile;
     public MenuItem moveFile;
     public Text curPath;
+    public MenuItem changeAttribute;
+    public CheckMenuItem viewButton;
+    public Menu viewMenu;
 
     public void onMouseClicked(MouseEvent event) {
         // 设置鼠标左键双击进行节点数据获取
@@ -66,7 +67,8 @@ public class FileManage {
                 parent = parent.getParent();
             }
             String path = sb.reverse().toString();
-            dataProperty.setText(Index.disk.getFileProperty(path));
+            if (!"/".equals(path)) dataProperty.setText(Index.disk.getFileProperty(path));
+            else dataProperty.setText("目录名 :  / " + '\n' + "属性 : 非只读且非隐藏");
             if (Index.disk.getDiskService().isFile(path)) textArea.setText(Index.disk.type(path));
             else textArea.setText("");
             PATH = path;
@@ -88,12 +90,12 @@ public class FileManage {
         NewFile.stage = new Stage();
         NewFile.stage.setTitle(PATH);
         NewFile.stage.initModality(Modality.APPLICATION_MODAL);
-        AnchorPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("../layout/newFile.fxml")));
+        AnchorPane root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/com/sdy/fileSystem/layout/newFile.fxml")));
         NewFile.stage.setScene(new Scene(root));
         NewFile.stage.show();
     }
 
-    public void saveFile(ActionEvent actionEvent) {
+    public void saveFile(ActionEvent actionEvent) throws IOException {
         String text = textArea.getText();
         Index.disk.edit(PATH, text);
         int len = text.length();
@@ -105,12 +107,19 @@ public class FileManage {
         DeleteNotNullDir.stage.setResizable(false);
         DeleteNotNullDir.stage.setTitle("提示");
         DeleteNotNullDir.stage.initStyle(StageStyle.UNIFIED);
-        AnchorPane load = FXMLLoader.load(getClass().getResource("../layout/deleteNotNullDir.fxml"));
+        AnchorPane load = FXMLLoader.load(getClass().getResource("/com/sdy/fileSystem/layout/deleteNotNullDir.fxml"));
         DeleteNotNullDir.stage.setScene(new Scene(load));
         DeleteNotNullDir.stage.show();
     }
 
     public void deleteFile() throws IOException {
+        if (PATH.equals("/")) {
+            Index.disk.getDiskService().getDisk().format();
+            Index index = new Index();
+            index.updataFileManage(Index.root);
+            index.updateBlockUser();
+            return;
+        }
         // 判断是否是非空目录
         if (Index.disk.getDiskService().isDir(PATH)) {
             int[] fileBlock = Index.disk.getDiskService().getDisk().getFileBlock(PATH);
@@ -118,19 +127,20 @@ public class FileManage {
             Index.disk.getDiskService().getDisk().getList(list, fileBlock[1]);
             if (list.size() != 0) {
                 deleteNotNullDir();
+                return;
             }
-        } else {
-            Index.disk.delete(PATH);
-            Index index = new Index();
-            Index.fileManageStage.close();
-            index.openFileManage();
         }
+//      System.out.println("删除");
+        Index.disk.delete(PATH);
+        Index index = new Index();
+        index.updataFileManage(Index.root);
+        index.updateBlockUser();
     }
 
     public void moveFile(ActionEvent actionEvent) throws IOException, InterruptedException {
         Move.stage = new Stage();
         Move.stage.setTitle("移动文件");
-        VBox root = FXMLLoader.load(getClass().getResource("../layout/move.fxml"));
+        VBox root = FXMLLoader.load(getClass().getResource("/com/sdy/fileSystem/layout/move.fxml"));
         Move.stage.setScene(new Scene(root));
         Node imageView = new ImageView(block);
         TreeItem<String> rootItem = new TreeItem<String>("/", imageView);
@@ -157,5 +167,45 @@ public class FileManage {
         Text src = (Text) root.lookup("#srcDir");
         src.setText(PATH);
         Copy.stage.show();
+    }
+
+    public void changeAttribute(ActionEvent actionEvent) {
+        try {
+            ChangeAttribute.stage = new Stage();
+            ChangeAttribute.stage.setTitle("修改属性");
+            AnchorPane root = FXMLLoader.load(getClass().getResource("/com/sdy/fileSystem/layout/changeAttribute.fxml"));
+            ChangeAttribute.stage.setScene(new Scene(root));
+            CheckBox hidden = (CheckBox) root.lookup("#hidden");
+            CheckBox readonly = (CheckBox) root.lookup("#readonly");
+            String text = dataProperty.getText();
+            String att = text.substring(text.lastIndexOf("属性：") + 3, text.lastIndexOf("属性：") + 4);
+            if(att.equals(Disk.READONLYANDHIDDEN)) {
+                hidden.setSelected(true);
+                readonly.setSelected(true);
+            } else if(att.equals(Disk.NOTREADONLYANDHIDDEN)) {
+                hidden.setSelected(true);
+                readonly.setSelected(false);
+            } else if(att.equals(Disk.READONLYANDNOTHIDDEN)) {
+                hidden.setSelected(false);
+                readonly.setSelected(true);
+            } else if(att.equals(Disk.NOTREADNOLYNOTHIDDEN)) {
+                hidden.setSelected(false);
+                readonly.setSelected(false);
+            }
+            ChangeAttribute.stage.initStyle(StageStyle.UNIFIED);
+            ChangeAttribute.stage.setResizable(false);
+            ChangeAttribute.stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showAllFile(ActionEvent actionEvent) {
+        try {
+            Index.showAllToFileManage = viewButton.isSelected();
+            new Index().updataFileManage(Index.root);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
