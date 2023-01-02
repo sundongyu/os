@@ -6,141 +6,272 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="win" prefHeight="500" prefWidth="500" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sdy.fileSystem.controller.Controller">
+<AnchorPane fx:id="win" prefHeight="500" prefWidth="500" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sdy.fileSystem.controller.Controller">
     <children>
-        <Circle fx:id="state1" fill="#ff1f1f" layoutX="32.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state2" fill="#ff1f1f" layoutX="52.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state3" fill="#ff1f1f" layoutX="72.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state4" fill="DODGERBLUE" layoutX="92.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state5" fill="DODGERBLUE" layoutX="112.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state6" fill="DODGERBLUE" layoutX="132.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state7" fill="DODGERBLUE" layoutX="152.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state8" fill="DODGERBLUE" layoutX="172.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state9" fill="DODGERBLUE" layoutX="192.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state10" fill="DODGERBLUE" layoutX="212.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state11" fill="DODGERBLUE" layoutX="232.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state12" fill="DODGERBLUE" layoutX="252.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state13" fill="DODGERBLUE" layoutX="272.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state14" fill="DODGERBLUE" layoutX="292.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state15" fill="DODGERBLUE" layoutX="312.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state16" fill="DODGERBLUE" layoutX="332.0" layoutY="26.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state17" fill="DODGERBLUE" layoutX="32.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state18" fill="DODGERBLUE" layoutX="52.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state19" fill="DODGERBLUE" layoutX="72.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state20" fill="DODGERBLUE" layoutX="92.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state21" fill="DODGERBLUE" layoutX="112.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state22" fill="DODGERBLUE" layoutX="132.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state23" fill="DODGERBLUE" layoutX="152.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state24" fill="DODGERBLUE" layoutX="172.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state25" fill="DODGERBLUE" layoutX="192.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state26" fill="DODGERBLUE" layoutX="212.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state27" fill="DODGERBLUE" layoutX="232.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state28" fill="DODGERBLUE" layoutX="252.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state29" fill="DODGERBLUE" layoutX="272.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state30" fill="DODGERBLUE" layoutX="292.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state31" fill="DODGERBLUE" layoutX="312.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state32" fill="DODGERBLUE" layoutX="332.0" layoutY="46.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state33" fill="DODGERBLUE" layoutX="32.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state34" fill="DODGERBLUE" layoutX="52.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state35" fill="DODGERBLUE" layoutX="72.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state36" fill="DODGERBLUE" layoutX="92.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state37" fill="DODGERBLUE" layoutX="112.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state38" fill="DODGERBLUE" layoutX="132.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state39" fill="DODGERBLUE" layoutX="152.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state40" fill="DODGERBLUE" layoutX="172.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state41" fill="DODGERBLUE" layoutX="192.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state42" fill="DODGERBLUE" layoutX="212.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state43" fill="DODGERBLUE" layoutX="232.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state44" fill="DODGERBLUE" layoutX="252.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state45" fill="DODGERBLUE" layoutX="272.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state46" fill="DODGERBLUE" layoutX="292.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state47" fill="DODGERBLUE" layoutX="312.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state48" fill="DODGERBLUE" layoutX="332.0" layoutY="66.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state49" fill="DODGERBLUE" layoutX="32.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state50" fill="DODGERBLUE" layoutX="52.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state51" fill="DODGERBLUE" layoutX="72.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state52" fill="DODGERBLUE" layoutX="92.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state53" fill="DODGERBLUE" layoutX="112.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state54" fill="DODGERBLUE" layoutX="132.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state55" fill="DODGERBLUE" layoutX="152.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state56" fill="DODGERBLUE" layoutX="172.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state57" fill="DODGERBLUE" layoutX="192.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state58" fill="DODGERBLUE" layoutX="212.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state59" fill="DODGERBLUE" layoutX="232.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state60" fill="DODGERBLUE" layoutX="252.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state61" fill="DODGERBLUE" layoutX="272.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state62" fill="DODGERBLUE" layoutX="292.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state63" fill="DODGERBLUE" layoutX="312.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state64" fill="DODGERBLUE" layoutX="332.0" layoutY="86.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state65" fill="DODGERBLUE" layoutX="32.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state66" fill="DODGERBLUE" layoutX="52.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state67" fill="DODGERBLUE" layoutX="72.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state68" fill="DODGERBLUE" layoutX="92.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state69" fill="DODGERBLUE" layoutX="112.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state70" fill="DODGERBLUE" layoutX="132.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state71" fill="DODGERBLUE" layoutX="152.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state72" fill="DODGERBLUE" layoutX="172.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state73" fill="DODGERBLUE" layoutX="192.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state74" fill="DODGERBLUE" layoutX="212.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state75" fill="DODGERBLUE" layoutX="232.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state76" fill="DODGERBLUE" layoutX="252.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state77" fill="DODGERBLUE" layoutX="272.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state78" fill="DODGERBLUE" layoutX="292.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state79" fill="DODGERBLUE" layoutX="312.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state80" fill="DODGERBLUE" layoutX="332.0" layoutY="106.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state81" fill="DODGERBLUE" layoutX="32.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state82" fill="DODGERBLUE" layoutX="52.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state83" fill="DODGERBLUE" layoutX="72.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state84" fill="DODGERBLUE" layoutX="92.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state85" fill="DODGERBLUE" layoutX="112.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state86" fill="DODGERBLUE" layoutX="132.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state87" fill="DODGERBLUE" layoutX="152.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state88" fill="DODGERBLUE" layoutX="172.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state89" fill="DODGERBLUE" layoutX="192.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state90" fill="DODGERBLUE" layoutX="212.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state91" fill="DODGERBLUE" layoutX="232.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state92" fill="DODGERBLUE" layoutX="252.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state93" fill="DODGERBLUE" layoutX="272.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state94" fill="DODGERBLUE" layoutX="292.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state95" fill="DODGERBLUE" layoutX="312.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state96" fill="DODGERBLUE" layoutX="332.0" layoutY="126.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state97" fill="DODGERBLUE" layoutX="32.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state98" fill="DODGERBLUE" layoutX="52.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state99" fill="DODGERBLUE" layoutX="72.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state100" fill="DODGERBLUE" layoutX="92.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state101" fill="DODGERBLUE" layoutX="112.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state102" fill="DODGERBLUE" layoutX="132.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state103" fill="DODGERBLUE" layoutX="152.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state104" fill="DODGERBLUE" layoutX="172.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state105" fill="DODGERBLUE" layoutX="192.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state106" fill="DODGERBLUE" layoutX="212.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state107" fill="DODGERBLUE" layoutX="232.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state108" fill="DODGERBLUE" layoutX="252.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state109" fill="DODGERBLUE" layoutX="272.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state110" fill="DODGERBLUE" layoutX="292.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state111" fill="DODGERBLUE" layoutX="312.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state112" fill="DODGERBLUE" layoutX="332.0" layoutY="146.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state113" fill="DODGERBLUE" layoutX="32.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state114" fill="DODGERBLUE" layoutX="52.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state115" fill="DODGERBLUE" layoutX="72.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state116" fill="DODGERBLUE" layoutX="92.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state117" fill="DODGERBLUE" layoutX="112.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state118" fill="DODGERBLUE" layoutX="132.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state119" fill="DODGERBLUE" layoutX="152.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state120" fill="DODGERBLUE" layoutX="172.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state121" fill="DODGERBLUE" layoutX="192.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state122" fill="DODGERBLUE" layoutX="212.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state123" fill="DODGERBLUE" layoutX="232.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state124" fill="DODGERBLUE" layoutX="252.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state125" fill="DODGERBLUE" layoutX="272.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state126" fill="DODGERBLUE" layoutX="292.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state127" fill="DODGERBLUE" layoutX="312.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Circle fx:id="state128" fill="DODGERBLUE" layoutX="332.0" layoutY="166.0" radius="6.0" stroke="BLACK" strokeType="INSIDE" />
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff" height="500" width="500" layoutY="-3.0" opacity="0.14" stroke="BLACK" strokeType="INSIDE"/>
-      <Button fx:id="flushBlockState" layoutX="26.0" layoutY="189.0" mnemonicParsing="false" onAction="#flushBlockState" prefHeight="27.0" prefWidth="312.0" text="刷新" textAlignment="CENTER">
-         <font>
-            <Font name="Chalkduster" size="14.0" />
-         </font>
-      </Button>
+        <Circle fx:id="state1" fill="#ff1f1f" layoutX="32.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state2" fill="#ff1f1f" layoutX="52.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state3" fill="#ff1f1f" layoutX="72.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state4" fill="DODGERBLUE" layoutX="92.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state5" fill="DODGERBLUE" layoutX="112.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state6" fill="DODGERBLUE" layoutX="132.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state7" fill="DODGERBLUE" layoutX="152.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state8" fill="DODGERBLUE" layoutX="172.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state9" fill="DODGERBLUE" layoutX="192.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state10" fill="DODGERBLUE" layoutX="212.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state11" fill="DODGERBLUE" layoutX="232.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state12" fill="DODGERBLUE" layoutX="252.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state13" fill="DODGERBLUE" layoutX="272.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state14" fill="DODGERBLUE" layoutX="292.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state15" fill="DODGERBLUE" layoutX="312.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state16" fill="DODGERBLUE" layoutX="332.0" layoutY="26.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state17" fill="DODGERBLUE" layoutX="32.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state18" fill="DODGERBLUE" layoutX="52.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state19" fill="DODGERBLUE" layoutX="72.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state20" fill="DODGERBLUE" layoutX="92.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state21" fill="DODGERBLUE" layoutX="112.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state22" fill="DODGERBLUE" layoutX="132.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state23" fill="DODGERBLUE" layoutX="152.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state24" fill="DODGERBLUE" layoutX="172.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state25" fill="DODGERBLUE" layoutX="192.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state26" fill="DODGERBLUE" layoutX="212.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state27" fill="DODGERBLUE" layoutX="232.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state28" fill="DODGERBLUE" layoutX="252.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state29" fill="DODGERBLUE" layoutX="272.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state30" fill="DODGERBLUE" layoutX="292.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state31" fill="DODGERBLUE" layoutX="312.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state32" fill="DODGERBLUE" layoutX="332.0" layoutY="46.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state33" fill="DODGERBLUE" layoutX="32.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state34" fill="DODGERBLUE" layoutX="52.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state35" fill="DODGERBLUE" layoutX="72.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state36" fill="DODGERBLUE" layoutX="92.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state37" fill="DODGERBLUE" layoutX="112.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state38" fill="DODGERBLUE" layoutX="132.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state39" fill="DODGERBLUE" layoutX="152.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state40" fill="DODGERBLUE" layoutX="172.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state41" fill="DODGERBLUE" layoutX="192.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state42" fill="DODGERBLUE" layoutX="212.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state43" fill="DODGERBLUE" layoutX="232.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state44" fill="DODGERBLUE" layoutX="252.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state45" fill="DODGERBLUE" layoutX="272.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state46" fill="DODGERBLUE" layoutX="292.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state47" fill="DODGERBLUE" layoutX="312.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state48" fill="DODGERBLUE" layoutX="332.0" layoutY="66.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state49" fill="DODGERBLUE" layoutX="32.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state50" fill="DODGERBLUE" layoutX="52.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state51" fill="DODGERBLUE" layoutX="72.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state52" fill="DODGERBLUE" layoutX="92.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state53" fill="DODGERBLUE" layoutX="112.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state54" fill="DODGERBLUE" layoutX="132.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state55" fill="DODGERBLUE" layoutX="152.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state56" fill="DODGERBLUE" layoutX="172.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state57" fill="DODGERBLUE" layoutX="192.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state58" fill="DODGERBLUE" layoutX="212.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state59" fill="DODGERBLUE" layoutX="232.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state60" fill="DODGERBLUE" layoutX="252.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state61" fill="DODGERBLUE" layoutX="272.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state62" fill="DODGERBLUE" layoutX="292.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state63" fill="DODGERBLUE" layoutX="312.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state64" fill="DODGERBLUE" layoutX="332.0" layoutY="86.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state65" fill="DODGERBLUE" layoutX="32.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state66" fill="DODGERBLUE" layoutX="52.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state67" fill="DODGERBLUE" layoutX="72.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state68" fill="DODGERBLUE" layoutX="92.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state69" fill="DODGERBLUE" layoutX="112.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state70" fill="DODGERBLUE" layoutX="132.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state71" fill="DODGERBLUE" layoutX="152.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state72" fill="DODGERBLUE" layoutX="172.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state73" fill="DODGERBLUE" layoutX="192.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state74" fill="DODGERBLUE" layoutX="212.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state75" fill="DODGERBLUE" layoutX="232.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state76" fill="DODGERBLUE" layoutX="252.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state77" fill="DODGERBLUE" layoutX="272.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state78" fill="DODGERBLUE" layoutX="292.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state79" fill="DODGERBLUE" layoutX="312.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state80" fill="DODGERBLUE" layoutX="332.0" layoutY="106.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state81" fill="DODGERBLUE" layoutX="32.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state82" fill="DODGERBLUE" layoutX="52.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state83" fill="DODGERBLUE" layoutX="72.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state84" fill="DODGERBLUE" layoutX="92.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state85" fill="DODGERBLUE" layoutX="112.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state86" fill="DODGERBLUE" layoutX="132.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state87" fill="DODGERBLUE" layoutX="152.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state88" fill="DODGERBLUE" layoutX="172.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state89" fill="DODGERBLUE" layoutX="192.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state90" fill="DODGERBLUE" layoutX="212.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state91" fill="DODGERBLUE" layoutX="232.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state92" fill="DODGERBLUE" layoutX="252.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state93" fill="DODGERBLUE" layoutX="272.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state94" fill="DODGERBLUE" layoutX="292.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state95" fill="DODGERBLUE" layoutX="312.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state96" fill="DODGERBLUE" layoutX="332.0" layoutY="126.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state97" fill="DODGERBLUE" layoutX="32.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state98" fill="DODGERBLUE" layoutX="52.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state99" fill="DODGERBLUE" layoutX="72.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state100" fill="DODGERBLUE" layoutX="92.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state101" fill="DODGERBLUE" layoutX="112.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state102" fill="DODGERBLUE" layoutX="132.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state103" fill="DODGERBLUE" layoutX="152.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state104" fill="DODGERBLUE" layoutX="172.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state105" fill="DODGERBLUE" layoutX="192.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state106" fill="DODGERBLUE" layoutX="212.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state107" fill="DODGERBLUE" layoutX="232.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state108" fill="DODGERBLUE" layoutX="252.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state109" fill="DODGERBLUE" layoutX="272.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state110" fill="DODGERBLUE" layoutX="292.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state111" fill="DODGERBLUE" layoutX="312.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state112" fill="DODGERBLUE" layoutX="332.0" layoutY="146.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state113" fill="DODGERBLUE" layoutX="32.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state114" fill="DODGERBLUE" layoutX="52.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state115" fill="DODGERBLUE" layoutX="72.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state116" fill="DODGERBLUE" layoutX="92.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state117" fill="DODGERBLUE" layoutX="112.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state118" fill="DODGERBLUE" layoutX="132.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state119" fill="DODGERBLUE" layoutX="152.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state120" fill="DODGERBLUE" layoutX="172.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state121" fill="DODGERBLUE" layoutX="192.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state122" fill="DODGERBLUE" layoutX="212.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state123" fill="DODGERBLUE" layoutX="232.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state124" fill="DODGERBLUE" layoutX="252.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state125" fill="DODGERBLUE" layoutX="272.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state126" fill="DODGERBLUE" layoutX="292.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state127" fill="DODGERBLUE" layoutX="312.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Circle fx:id="state128" fill="DODGERBLUE" layoutX="332.0" layoutY="166.0" radius="6.0" stroke="BLACK"
+                strokeType="INSIDE"/>
+        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff" height="500" width="500" layoutY="-3.0" opacity="0.14"
+                   stroke="BLACK" strokeType="INSIDE"/>
+        <Button fx:id="flushBlockState" layoutX="26.0" layoutY="189.0" mnemonicParsing="false"
+                onAction="#flushBlockState" prefHeight="27.0" prefWidth="312.0" text="刷新" textAlignment="CENTER">
+            <font>
+                <Font name="Chalkduster" size="14.0"/>
+            </font>
+        </Button>
     </children>
 </AnchorPane>

@@ -225,22 +225,21 @@ public class DiskService {
             return;
         }
         // 在磁盘块root下将剩余文件目录创建完成
-        String fileName = null, name = null, type = null, suffix = null;
+        String fileName = null, name = null, suffix = null;
+        int type = 0;
         boolean isFile = false;
         List<String> list = new ArrayList<>();
         for (; i < split.length; i++) {
-
+            type = 3;
             fileName = split[i];
             if (fileName.contains(".")) {
                 System.out.println("待创建的是文件");
                 name = fileName.substring(0, fileName.indexOf("."));
-                type = "3";
                 suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
                 isFile = true;
             } else if (!fileName.contains(".")) {
                 System.out.println("待创建的是目录");
                 name = fileName;
-                type = "3";
                 suffix = "";
             }
             root = disk.getFatList(root);
@@ -280,50 +279,39 @@ public class DiskService {
     }
 
     public void change(String path, String attribute) {
-        boolean r = false, w = false;
+        boolean r = true, w = true;
         int[] fileBlock = disk.getFileBlock(path);
-        String read = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        String read = disk.binaryToNum(disk.read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        int weigth = 0; // 权重
         // 获取原属性
         if (Disk.NOTREADONLYANDHIDDEN.equals(read)) {
             w = true;
             r = false;
+            weigth = 1;
         } else if (Disk.READONLYANDHIDDEN.equals(read)) {
             r = false;
             w = false;
+            weigth = 0;
         } else if (Disk.READONLYANDNOTHIDDEN.equals(read)) {
             w = false;
             r = true;
+            weigth = 2;
         } else {
             w = true;
             r = true;
+            weigth = 3;
         }
 
-        // 写入属性
-        if(attribute.charAt(0) == '+') {
-            if(attribute.charAt(1) == 'r') {
-                r = true;
-            } else if(attribute.charAt(1) == 'w') {
-                w = true;
-            }
-        } else if(attribute.charAt(0) == '-') {
-            if(attribute.charAt(1) == 'r') {
-                r = false;
-            } else if(attribute.charAt(1) == 'w') {
-                w = false;
-            }
+        if(!r && "+r".equals(attribute)) {
+            weigth += 2;
+        } else if(r && "-r".equals(attribute)) {
+            weigth -= 2;
+        } else if(!w && "+w".equals(attribute)) {
+            weigth += 1;
+        } else if(w && "-w".equals(attribute)) {
+            weigth -= 1;
         }
-
-        // 保存属性
-        if(r && w) {
-            read = Disk.NOTREADNOLYNOTHIDDEN;
-        } else if(!r && w) {
-            read = Disk.NOTREADONLYANDHIDDEN;
-        } else if(r && !w) {
-            read = Disk.READONLYANDNOTHIDDEN;
-        } else if(!(r || w)) {
-            read = Disk.READONLYANDHIDDEN;
-        }
-        disk.write(fileBlock[3], fileBlock[4] * 8 + 4, disk.ascllToBinary(read));
+        disk.write(fileBlock[3], fileBlock[4] * 8 + 4, disk.ascllToBinary(weigth));
     }
 
 
@@ -418,7 +406,7 @@ public class DiskService {
         System.out.println("name: " + name);
         String suffix = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] * 8 + 3, 1));
         System.out.println("suffix: " + suffix);
-        String property = disk.binaryToAscll(disk.read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        String property = disk.binaryToNum(disk.read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
         String fileLen = disk.binaryToNum(disk.read(fileBlock[3], fileBlock[4] * 8 + 6, 2));
         System.out.println(fileBlock[0] + "   " + fileBlock[1] + "    " + fileBlock[2] + "     " + fileBlock[3] + "  " + fileBlock[4] + "   " + disk.read(fileBlock[3], fileBlock[4] * 8 + 6, 2));
         System.out.println(fileLen);

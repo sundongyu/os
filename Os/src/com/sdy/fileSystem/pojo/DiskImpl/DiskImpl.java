@@ -30,10 +30,10 @@ public class DiskImpl implements Disk {
 //        if(path.charAt(0) != '/') URL = path.substring(5, path.lastIndexOf("/")) + "/disk.txt";
 //        else URL = path.substring(0, path.lastIndexOf("out") + 3) + "/disk.txt";
         // ide上使用这种
-//        URL = "src/disk.txt";
+        URL = "src/disk.txt";
         // win平台下路径
-        path = path.substring(path.indexOf("/") + 1, path.lastIndexOf("Os.jar!"));
-        URL = path + "/disk.txt";
+//        path = path.substring(path.indexOf("/") + 1, path.lastIndexOf("Os.jar!"));
+//        URL = path + "/disk.txt";
     }
 
     public int getNumOfRootDir() {
@@ -131,6 +131,14 @@ public class DiskImpl implements Disk {
 
     /**
      * 从磁盘块blockNun的第start个字节开始，读取长度为len字节的内容
+     */
+
+    /**
+     *
+     * @param blockNum 读取的磁盘块号
+     * @param start 磁盘块中指定字节开始
+     * @param len 读取指定字节长度的内容
+     * @return
      */
     public String read(int blockNum, int start, int len) {
         start += blockNum * 64;
@@ -272,23 +280,23 @@ public class DiskImpl implements Disk {
 
     public boolean isReadOnly(String path) {
         int[] fileBlock = getFileBlock(path);
-        String read = binaryToAscll(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        String read = binaryToNum(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
         return read.equals("0") || read.equals("2");
     }
 
     public boolean isReadOnly(int[] fileBlock) {
-        String read = binaryToAscll(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        String read = binaryToNum(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
         return read.equals("0") || read.equals("2");
     }
 
     public boolean isHidden(String path) {
         int[] fileBlock = getFileBlock(path);
-        String read = binaryToAscll(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        String read = binaryToNum(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
         return read.equals("1") || read.equals("3");
     }
 
     public boolean isHidden(int[] fileBlock) {
-        String read = binaryToAscll(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
+        String read = binaryToNum(read(fileBlock[3], fileBlock[4] * 8 + 4, 1));
         return read.equals("1") || read.equals("3");
     }
 
@@ -302,10 +310,6 @@ public class DiskImpl implements Disk {
         for (int q : fatList) {
             for (int i = 0; i < 8; i++) {
                 StringBuilder sb = new StringBuilder();
-                String type = binaryToAscll(read(q, i * 8 + 4, 1));
-                if (type.equals(Disk.NOTREADONLYANDHIDDEN) || type.equals(Disk.READONLYANDHIDDEN)) {
-                    if (!Index.showAllToFileManage) continue;
-                }
                 sb.append(binaryToAscll(read(q, i * 8, 3)));
                 // 判断是否是空
                 if ("".equals(sb.toString())) continue;
@@ -313,6 +317,10 @@ public class DiskImpl implements Disk {
                 if (!"".equals(suffix)) {
                     sb.append(".");
                     sb.append(suffix);
+                }
+                String type = binaryToNum(read(q, i * 8 + 4, 1));
+                if (type.equals(Disk.NOTREADONLYANDHIDDEN) || type.equals(Disk.READONLYANDHIDDEN)) {
+                    if (!Index.showAllToFileManage) continue;
                 }
                 list.add(sb.toString());
             }
@@ -362,8 +370,6 @@ public class DiskImpl implements Disk {
                 idx++;
             }
             if (!b) return new int[]{0, 0, 0, 0, 0};
-
-
             // 获取实际目录
             res[2] = idx;
             if (idx < 8) res[4] = idx;
@@ -450,7 +456,6 @@ public class DiskImpl implements Disk {
             updateFat(fatList.get(fatList.size() - 2), 1);
         }
     }
-
 
     public int getNullBlock() {
         boolean[] state = getState();

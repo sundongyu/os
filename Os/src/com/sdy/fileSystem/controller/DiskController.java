@@ -67,6 +67,7 @@ public class DiskController {
     public void dfsPath(String path, TreeItem<String> rootItem, Image icon) {
         List<String> ls = ls(path);
         for (String s : ls) {
+            if("".equals(s)) continue;
             TreeItem<String> curRoot;
             Node imageView = new ImageView(icon);
             if(diskService.isDir(s)) {
@@ -82,6 +83,7 @@ public class DiskController {
     public void dfsDir(String path, TreeItem<String> rootItem, Image icon) {
         List<String> ls = ls(path);
         for (String s : ls) {
+            if("".equals(s)) continue;
             TreeItem<String> curRoot;
             Node imageView = new ImageView(icon);
             if(diskService.isDir(s)) {

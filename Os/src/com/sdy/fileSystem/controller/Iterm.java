@@ -145,7 +145,15 @@ public class Iterm {
                     idx %= 100;
                     dataArr[idx++] = temp;
                     break;
-                case "delete":
+                case "deldir":
+                    if (Index.disk.getDiskService().isDir(path)) {
+                        Index.disk.getDiskService().dfsDel(path);
+                    } else Index.disk.delete(path);
+                    textArea.insertText(textArea.getLength(), '\n' + itermHead + curPath + itermTail);
+                    idx %= 100;
+                    dataArr[idx++] = temp;
+                    break;
+                case "rdir":
                     if (Index.disk.getDiskService().isDir(path)) {
                         int[] fileBlock = Index.disk.getDiskService().getDisk().getFileBlock(path);
                         List<String> list = Index.disk.ls(path);
@@ -178,7 +186,6 @@ public class Iterm {
                     idx %= 100;
                     dataArr[idx++] = temp;
                     break;
-                case "change":
                 case "cd":
                     if (arr[1].equals("..")) {
                         if (curPath.equals("/")) {
@@ -216,7 +223,6 @@ public class Iterm {
             }
         } else if (arr.length == 3) {
             String src = arr[1], desc = arr[2];
-
             src = pathProcessing(src);
             desc = pathProcessing(desc);
             System.out.println(src);
@@ -232,8 +238,7 @@ public class Iterm {
                 dataArr[idx++] = temp;
             } else if (arr[0].equals("change")) {
                 String path = arr[1];
-                if (arr[1].charAt(0) != '/' && !curPath.equals("/")) path = curPath + "/" + arr[1];
-                else if (curPath.equals("/")) path = "/" + arr[1];
+                path = pathProcessing(path);
                 Index.disk.change(path, arr[2]);
                 idx %= 100;
                 dataArr[idx++] = temp;
@@ -253,26 +258,27 @@ public class Iterm {
         if (path.charAt(0) == '/') return path;
         // 相对路径 + 当前路径
         if ("./".equals(path.substring(0, 2)) && !path.contains("/")) {
-            if("/".equals(curPath)) return "/" + path;
+            if ("/".equals(curPath)) return "/" + path;
             return curPath + "/" + path;
-        } else if("./".equals(path.substring(0, 2))){
+        } else if ("./".equals(path.substring(0, 2))) {
             path = path.substring(2);
         }
         // 相对路径 + 上层路径 ../../abc.txt   /aaa/bbb/ccc
         if (path.contains("../")) {
             while (path.contains("/")) {
                 path = path.substring(path.indexOf("/") + 1);
-                if(curPath.indexOf("/") != curPath.lastIndexOf("/")) curPath = curPath.substring(0, curPath.lastIndexOf("/"));
+                if (curPath.indexOf("/") != curPath.lastIndexOf("/"))
+                    curPath = curPath.substring(0, curPath.lastIndexOf("/"));
                 else {
-                    if(curPath.equals("/")) return "";
+                    if (curPath.equals("/")) return "";
                     else curPath = "/";
                 }
             }
-            if("/".equals(curPath)) return "/" + path;
+            if ("/".equals(curPath)) return "/" + path;
             return curPath + "/" + path;
         }
         // 相对路径 + 下层路径 abc/def/....
-        if("/".equals(curPath)) return "/" + path;
+        if ("/".equals(curPath)) return "/" + path;
         return curPath + "/" + path;
     }
 

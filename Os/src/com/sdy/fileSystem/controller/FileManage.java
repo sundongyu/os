@@ -178,7 +178,12 @@ public class FileManage {
             CheckBox hidden = (CheckBox) root.lookup("#hidden");
             CheckBox readonly = (CheckBox) root.lookup("#readonly");
             String text = dataProperty.getText();
+            System.out.println("--------------------");
+            System.out.println("text = " + text);
+            System.out.println("------------------------");
             String att = text.substring(text.lastIndexOf("属性：") + 3, text.lastIndexOf("属性：") + 4);
+            System.out.println("----------------------");
+            System.out.println(att);
             if(att.equals(Disk.READONLYANDHIDDEN)) {
                 hidden.setSelected(true);
                 readonly.setSelected(true);

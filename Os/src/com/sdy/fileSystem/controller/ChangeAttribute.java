@@ -26,6 +26,7 @@ public class ChangeAttribute {
     }
 
     public void yesButton(ActionEvent actionEvent) {
+        System.out.println("FileManage.PATH = " + FileManage.PATH);
 
         if(hidden.isSelected()) {
             Index.disk.change(FileManage.PATH, "-r");
