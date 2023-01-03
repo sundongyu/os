@@ -167,6 +167,16 @@ public class Iterm {
                     idx %= 100;
                     dataArr[idx++] = temp;
                     break;
+                case "rm":
+                    if (Index.disk.getDiskService().isDir(path)) {
+                        showItermData("非空目录不能删除");
+                        break;
+                    }
+                    Index.disk.delete(path);
+                    textArea.insertText(textArea.getLength(), '\n' + itermHead + curPath + itermTail);
+                    idx %= 100;
+                    dataArr[idx++] = temp;
+                    break;
                 case "type":
                     String type = Index.disk.type(path);
                     showItermData(type);
